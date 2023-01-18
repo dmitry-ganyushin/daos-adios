@@ -1,0 +1,30 @@
+# Config file for Task 1 in a pipeline
+#   - Produce variables  a  b  c
+#   - Write variables    a  b  c     to    stream_T1.bp
+
+# Config file for Task 2 in a pipeline
+#   - Read in variables  a  b  from Task 1 (ignore c) from stream_T1.bp
+#     using a different decomposition
+
+
+group  io_T1
+  # item  type    varname     N   [dim1 dim2 ... dimN  decomp1 decomp2 ... decompN]
+  array   double  a           3    512   512   1024        X       Y           Z
+
+group  io_T2
+  # item  type    varname     N   [dim1 dim2 ... dimN  decomp1 decomp2 ... decompN]
+  array   double  a           3    512   512   1024        X       Y           Z
+
+# Task 1 actions
+app 1
+  steps   5
+  sleep   2.0
+    # write all of io_T1 into stream_T1.bp
+  write   stream_T1.bp    io_T1
+
+# Task 2 actions
+app 2
+  steps   5
+  read  next  stream_T1.bp    io_T2   1.0
+  sleep   2.0
+  
